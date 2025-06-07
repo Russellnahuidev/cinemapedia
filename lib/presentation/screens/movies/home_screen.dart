@@ -1,3 +1,4 @@
+import 'package:cinamapedia/presentation/providers/movies/initial_loading_provider.dart';
 import 'package:cinamapedia/presentation/providers/movies/movies_providers.dart';
 import 'package:cinamapedia/presentation/providers/movies/movies_slideshow_provider.dart';
 import 'package:cinamapedia/presentation/widget/widgets.dart';
@@ -37,6 +38,11 @@ class _HomeViewState extends ConsumerState<_HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+    if (initialLoading) {
+      return const FullScerenLoader();
+    }
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final slideShowMovies = ref.watch(moviesSlidesShowProvider);
     final popularMovies = ref.watch(popularMoviesProvider);
