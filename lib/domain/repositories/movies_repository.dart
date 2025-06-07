@@ -1,6 +1,6 @@
 import 'package:cinamapedia/domain/entities/movie.dart';
 
-abstract class MoviesDataSource {
+abstract class MoviesRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
   // Future<Movie> getMovieById(int id);
   // Future<List<Movie>> searchMovies(String query);
