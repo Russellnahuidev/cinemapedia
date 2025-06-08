@@ -73,7 +73,7 @@ class ThemoviedbDatasourceImpl extends MoviesDataSource {
     }
     final movieDetails = MovieDetails.fromJson(response.data);
 
-    final movieDB = MovieMapper.movieDetailsToMovieDB(movieDetails);
+    final Movie movieDB = MovieMapper.movieDetailsToEntity(movieDetails);
     return movieDB;
   }
 }
