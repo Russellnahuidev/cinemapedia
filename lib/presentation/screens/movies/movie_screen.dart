@@ -30,21 +30,63 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text('Movie Details')),
-      body: Center(
-        child: Text(
-          'Details for Movie ID: ${widget.movieId}',
-          style: TextStyle(fontSize: 24),
-        ),
+      body: CustomScrollView(
+        physics: ClampingScrollPhysics(),
+        slivers: [_CustomSliverAppBar(movie: movie)],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Action to perform when the button is pressed
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Floating Action Button Pressed')),
-          );
-        },
-        child: Icon(Icons.add),
+    );
+  }
+}
+
+class _CustomSliverAppBar extends StatelessWidget {
+  final Movie movie;
+  const _CustomSliverAppBar({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return SliverAppBar(
+      backgroundColor: Colors.black,
+      expandedHeight: size.height * 0.7,
+      foregroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        title: Text(
+          movie.title,
+          style: TextStyle(fontSize: 20, color: Colors.white),
+          textAlign: TextAlign.start,
+        ),
+        background: Stack(
+          children: [
+            SizedBox.expand(
+              child: Image.network(movie.posterPath, fit: BoxFit.cover),
+            ),
+            SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    stops: [0.7, 1.0],
+                    colors: [Colors.transparent, Colors.black87],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox.expand(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    stops: [0.0, 0.3],
+                    colors: [Colors.black87, Colors.transparent],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
