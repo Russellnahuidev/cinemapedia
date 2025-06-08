@@ -8,6 +8,6 @@ class ActorMapper {
     name: cast.name,
     profilePath: cast.profilePath != null
         ? 'https://image.tmdb.org/t/p/w500${cast.profilePath}'
-        : 'https://www.shutterstock.com/shutterstock/photos/1153673752/display_1500/stock-vector-profile-placeholder-image-gray-silhouette-no-photo-1153673752.jpg',
+        : 'https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255710-stock-illustration-avatar-vector-male-profile-gray.jpg',
   );
 }
