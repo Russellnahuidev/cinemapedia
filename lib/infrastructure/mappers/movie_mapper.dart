@@ -16,7 +16,7 @@ class MovieMapper {
       popularity: movieDB.popularity,
       posterPath: (movieDB.posterPath != '')
           ? 'https://image.tmdb.org/t/p/w500${movieDB.posterPath}'
-          : 'no-poster',
+          : 'https://advancescreenings.com/img/posters/d/drunk_wedding_t.jpg',
       releaseDate: movieDB.releaseDate != null
           ? movieDB.releaseDate!
           : DateTime.now(),
