@@ -1,7 +1,9 @@
+import 'package:cinamapedia/domain/entities/movie.dart';
 import 'package:cinamapedia/presentation/delegates/search_movie_delegate.dart';
 import 'package:cinamapedia/presentation/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomAppbar extends ConsumerWidget {
   const CustomAppbar({super.key});
@@ -34,12 +36,16 @@ class CustomAppbar extends ConsumerWidget {
                   // Implement search functionality
                   final movieRepository = ref.read(movieRespositoryProvider);
 
-                  showSearch(
+                  showSearch<Movie?>(
                     context: context,
                     delegate: SearchMovieDelegate(
                       searchMoviesCallback: movieRepository.searchMovies,
                     ),
-                  );
+                  ).then((movie) {
+                    if (movie == null) return;
+                    // Navigate to movie details page
+                    context.push('/movie/${movie.id}');
+                  });
                 },
               ),
             ],
