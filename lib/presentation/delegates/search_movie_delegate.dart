@@ -2,17 +2,19 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinamapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
+typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
+
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
-  SearchMovieDelegate()
-    : super(
-        searchFieldLabel: 'Buscar películas',
-        textInputAction: TextInputAction.search,
-      );
+  final SearchMoviesCallback searchMoviesCallback;
+
+  SearchMovieDelegate({required this.searchMoviesCallback});
+
+  @override
+  String get searchFieldLabel => 'Buscar Películas';
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
-      //if (query.isNotEmpty)
       FadeIn(
         animate: query.isNotEmpty,
         child: IconButton(
@@ -45,9 +47,19 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // Implement search suggestions logic here
-    return Text('Buiding buildSuggestions...');
-    // Center(child: Text('Sugerencias para "$query"'))
-    // ;
+    return FutureBuilder(
+      future: searchMoviesCallback(query),
+
+      builder: (context, snapshot) {
+        final movies = snapshot.data ?? [];
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index) {
+            final movie = movies[index];
+            return ListTile(title: Text(movie.title));
+          },
+        );
+      },
+    );
   }
 }
