@@ -50,7 +50,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
           itemCount: movies.length,
           itemBuilder: (context, index) => _MovieItem(
             movie: movies[index],
-            onMovieSelected: (movie) {
+            onMovieSelected: (context, movie) {
               clearStrams();
               close(context, movie);
             },
