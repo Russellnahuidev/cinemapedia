@@ -1,6 +1,7 @@
 import 'package:cinamapedia/domain/datasources/local_storage_datasurce.dart';
 import 'package:cinamapedia/domain/entities/movie.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 class IsarDatasourceImpl extends LocalStorageDataSource {
   IsarDatasourceImpl() {
@@ -10,8 +11,13 @@ class IsarDatasourceImpl extends LocalStorageDataSource {
   late Future<Isar> db;
 
   Future<Isar> openDB() async {
+    final dir = await getApplicationDocumentsDirectory();
     if (Isar.instanceNames.isEmpty) {
-      return await Isar.open([MovieSchema], inspector: true, directory: '');
+      return await Isar.open(
+        [MovieSchema],
+        inspector: true,
+        directory: dir.path,
+      );
     }
     return Future.value(Isar.getInstance());
   }
