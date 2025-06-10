@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: IndexedStack(index: pageIndex, children: viewRoutes),
 
-      bottomNavigationBar: CustomBottonNavigation(),
+      bottomNavigationBar: CustomBottonNavigation(currentIndex: pageIndex),
     );
   }
 }
