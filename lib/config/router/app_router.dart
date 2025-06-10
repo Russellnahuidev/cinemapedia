@@ -1,4 +1,5 @@
 import 'package:cinamapedia/presentation/screens/screens.dart';
+import 'package:cinamapedia/presentation/views/views.dart';
 import 'package:go_router/go_router.dart';
 
 final appRouter = GoRouter(
@@ -7,7 +8,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/',
       name: HomeScreen.name,
-      builder: (context, state) => HomeScreen(),
+      builder: (context, state) => HomeScreen(childView: HomeView()),
       routes: [
         GoRoute(
           path: 'movie/:movieId',
