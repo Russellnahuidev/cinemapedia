@@ -38,6 +38,18 @@ class IsarDatasourceImpl extends LocalStorageDataSource {
     return isar.movies.where().offset(offset).limit(limit).findAll();
   }
 
+  // @override
+  // Future<void> toggleFavorite(Movie movie) async {
+  //   final isar = await db;
+  //   final favoriteMovie = await isar.movies
+  //       .filter()
+  //       .idEqualTo(movie.id)
+  //       .findFirst();
+  //   if (favoriteMovie != null) {
+  //     isar.writeTxnSync(() => isar.movies.deleteSync(favoriteMovie.isarId!));
+  //   }
+  //   isar.writeTxnSync(() => isar.movies.putSync(movie));
+  // }
   @override
   Future<void> toggleFavorite(Movie movie) async {
     final isar = await db;
@@ -45,9 +57,13 @@ class IsarDatasourceImpl extends LocalStorageDataSource {
         .filter()
         .idEqualTo(movie.id)
         .findFirst();
+
     if (favoriteMovie != null) {
+      // Si existe, la eliminamos (ya no es favorita)
       isar.writeTxnSync(() => isar.movies.deleteSync(favoriteMovie.isarId!));
+    } else {
+      // Si no existe, la agregamos (ahora es favorita)
+      isar.writeTxnSync(() => isar.movies.putSync(movie));
     }
-    isar.writeTxnSync(() => isar.movies.putSync(movie));
   }
 }
