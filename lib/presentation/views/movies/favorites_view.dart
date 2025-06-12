@@ -1,4 +1,5 @@
 import 'package:cinamapedia/presentation/providers/providers.dart';
+import 'package:cinamapedia/presentation/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,10 +11,27 @@ class FavoritesView extends ConsumerStatefulWidget {
 }
 
 class FavoritesViewState extends ConsumerState<FavoritesView> {
+  bool isLoastPage = false;
+  bool isLoading = false;
+
   @override
   void initState() {
     super.initState();
-    ref.read(favoriteMoviesProvider.notifier).loadNextPage();
+    loadNextPage();
+  }
+
+  void loadNextPage() async {
+    if (isLoading || isLoastPage) return;
+    isLoading = true;
+
+    final movies = await ref
+        .read(favoriteMoviesProvider.notifier)
+        .loadNextPage();
+    isLoading = false;
+
+    if (movies.isEmpty) {
+      isLoastPage = true;
+    }
   }
 
   @override
@@ -21,14 +39,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> {
     final favoriteMovies = ref.watch(favoriteMoviesProvider).values.toList();
 
     return Scaffold(
-      body: ListView.builder(
-        itemCount: favoriteMovies.length,
-        itemBuilder: (context, index) {
-          final movie = favoriteMovies[index];
-
-          return ListTile(title: Text(movie.title));
-        },
-      ),
+      body: MovieMasonry(loadNextPage: loadNextPage, movies: favoriteMovies),
     );
   }
 }
