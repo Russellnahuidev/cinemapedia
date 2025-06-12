@@ -1,6 +1,6 @@
 import 'package:cinamapedia/domain/entities/movie.dart';
 
-abstract class LocalStoregeRepository {
+abstract class LocalStorageRepository {
   Future<void> toggleFavorite(Movie movie);
 
   Future<bool> isMovieFavorite(int movieId);

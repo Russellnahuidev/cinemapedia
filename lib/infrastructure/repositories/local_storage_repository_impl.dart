@@ -2,7 +2,7 @@ import 'package:cinamapedia/domain/datasources/local_storage_datasurce.dart';
 import 'package:cinamapedia/domain/entities/movie.dart';
 import 'package:cinamapedia/domain/repositories/local_storege_repository.dart';
 
-class LocalStorageRepositoryImpl extends LocalStoregeRepository {
+class LocalStorageRepositoryImpl extends LocalStorageRepository {
   final LocalStorageDataSource dataSource;
 
   LocalStorageRepositoryImpl(this.dataSource);
