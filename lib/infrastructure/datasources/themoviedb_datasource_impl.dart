@@ -1,9 +1,8 @@
 import 'package:cinamapedia/config/constants/environment.dart';
 import 'package:cinamapedia/domain/datasources/movies_datasource.dart';
-import 'package:cinamapedia/domain/entities/movie.dart';
-import 'package:cinamapedia/infrastructure/mappers/movie_mapper.dart';
-import 'package:cinamapedia/infrastructure/models/moviedb/movie_details.dart';
-import 'package:cinamapedia/infrastructure/models/moviedb/moviedeb_response.dart';
+import 'package:cinamapedia/domain/entities/entities.dart';
+import 'package:cinamapedia/infrastructure/mappers/mappers.dart';
+import 'package:cinamapedia/infrastructure/models/models.dart';
 import 'package:dio/dio.dart';
 
 class ThemoviedbDatasourceImpl extends MoviesDataSource {
@@ -85,5 +84,26 @@ class ThemoviedbDatasourceImpl extends MoviesDataSource {
       queryParameters: {'query': query},
     );
     return _jsonToMovies(encodedQuery.data);
+  }
+
+  @override
+  Future<List<Movie>> getSimilarMovies(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosById(int movieId) async {
+    final response = await dio.get('/movie/$movieId/videos');
+    final moviedbVideosResponse = MoviedbVideosResponse.fromJson(response.data);
+    final videos = <Video>[];
+
+    for (final moviedbVideo in moviedbVideosResponse.results) {
+      if (moviedbVideo.site == 'YouTube') {
+        final video = VideoMapper.moviedbVideoToEntity(moviedbVideo);
+        videos.add(video);
+      }
+    }
+    return videos;
   }
 }

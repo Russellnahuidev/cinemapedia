@@ -1,4 +1,4 @@
-import 'package:cinamapedia/domain/entities/movie.dart';
+import 'package:cinamapedia/domain/entities/entities.dart';
 
 abstract class MoviesDataSource {
   Future<List<Movie>> getNowPlaying({int page = 1});
@@ -9,4 +9,6 @@ abstract class MoviesDataSource {
   Future<List<Movie>> getPopularMovies({int page = 1});
   Future<List<Movie>> getTopRatedMovies({int page = 1});
   Future<List<Movie>> getUpcomingMovies({int page = 1});
+  Future<List<Movie>> getSimilarMovies(int movieId);
+  Future<List<Video>> getYoutubeVideosById(int movieId);
 }
