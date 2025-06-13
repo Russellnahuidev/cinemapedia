@@ -28,7 +28,7 @@ class CustomAppbar extends ConsumerWidget {
                 },
               ),
               const Spacer(),
-              Text('CinaMapedia', style: titleStyle),
+              Text('CineMapedia', style: titleStyle),
 
               const Spacer(),
 
