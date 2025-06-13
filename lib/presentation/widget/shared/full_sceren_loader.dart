@@ -23,7 +23,7 @@ class FullScerenLoader extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Cargando...'),
+          Text('Espere por favor'),
           const SizedBox(height: 10),
           const CircularProgressIndicator(strokeWidth: 2.5),
           const SizedBox(height: 10),

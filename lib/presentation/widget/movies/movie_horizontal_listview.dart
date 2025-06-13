@@ -1,28 +1,29 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:cinamapedia/config/helpers/human_formats.dart';
 import 'package:cinamapedia/domain/entities/movie.dart';
+import 'package:cinamapedia/presentation/widget/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class MovieHorizontalLisview extends StatefulWidget {
+class MovieHorizontalListview extends StatefulWidget {
   final List<Movie> movies;
   final String? title;
-  final String? subTile;
+  final String? subTitle;
   final VoidCallback? loadNextPage;
 
-  const MovieHorizontalLisview({
+  const MovieHorizontalListview({
     super.key,
     required this.movies,
     this.title,
-    this.subTile,
+    this.subTitle,
     this.loadNextPage,
   });
 
   @override
-  State<MovieHorizontalLisview> createState() => _MovieHorizontalLisviewState();
+  State<MovieHorizontalListview> createState() =>
+      _MovieHorizontalListviewState();
 }
 
-class _MovieHorizontalLisviewState extends State<MovieHorizontalLisview> {
+class _MovieHorizontalListviewState extends State<MovieHorizontalListview> {
   final scrollController = ScrollController();
 
   @override
@@ -50,8 +51,8 @@ class _MovieHorizontalLisviewState extends State<MovieHorizontalLisview> {
       height: 350,
       child: Column(
         children: [
-          if (widget.title != null || widget.subTile != null)
-            _Title(widget.title, widget.subTile),
+          if (widget.title != null || widget.subTitle != null)
+            _Title(widget.title, widget.subTitle),
 
           Expanded(
             child: ListView.builder(
@@ -86,27 +87,17 @@ class _Slide extends StatelessWidget {
           //* Imagen
           SizedBox(
             width: 150,
+
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                fit: BoxFit.cover,
-                width: 150,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    return Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Center(
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                    );
-                  }
-                  return GestureDetector(
-                    onTap: () => context.push('/home/0/movie/${movie.id}'),
-
-                    child: FadeIn(child: child),
-                  );
-                },
+              child: GestureDetector(
+                onTap: () => context.push('/home/0/movie/${movie.id}'),
+                child: FadeInImage(
+                  height: 225,
+                  fit: BoxFit.cover,
+                  placeholder: AssetImage('assets/loaders/bottle-loader.gif'),
+                  image: NetworkImage(movie.posterPath),
+                ),
               ),
             ),
           ),
@@ -125,26 +116,7 @@ class _Slide extends StatelessWidget {
           ),
 
           //* Rating
-          SizedBox(
-            width: 150,
-            child: Row(
-              children: [
-                Icon(Icons.star_outline, color: Colors.yellow.shade800),
-                SizedBox(width: 5),
-                Text(
-                  '${movie.voteAverage}',
-                  style: textStyle.bodyMedium?.copyWith(
-                    color: Colors.yellow.shade800,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  HumanFormats.number(movie.popularity),
-                  style: textStyle.bodySmall,
-                ),
-              ],
-            ),
-          ),
+          MovieRating(voteAverage: movie.voteAverage),
         ],
       ),
     );
@@ -162,7 +134,7 @@ class _Title extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(top: 10),
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
       child: Row(
         children: [
           if (title != null) Text(title!, style: titleStyle),

@@ -29,7 +29,9 @@ class CustomAppbar extends ConsumerWidget {
               ),
               const Spacer(),
               Text('CinaMapedia', style: titleStyle),
+
               const Spacer(),
+
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
@@ -49,7 +51,7 @@ class CustomAppbar extends ConsumerWidget {
                   ).then((movie) {
                     if (movie == null) return;
                     // Navigate to movie details page
-                    context.push('/hoome/0/movie/${movie.id}');
+                    context.push('/home/0/movie/${movie.id}');
                   });
                 },
               ),
